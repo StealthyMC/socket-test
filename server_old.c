@@ -1,14 +1,10 @@
 /* --- server_old.c ---
-
   Created using guide at:
   http://www.linuxhowtos.org/C_C++/socket.htm
-
   Simple program that creates a socket and allows two hosts to talk to each
   other over the internet.
-
   Considered "old-styled" since some function calls like gethostbyname()
   are no longer used in favor of calls like getaddrinfo().
-
 */
 
 // declarations for input and output
@@ -24,6 +20,9 @@
 #include <sys/socket.h>
 // contains structs and constants for internet domain addresses
 #include <netinet/in.h>
+
+// for inet_ntop() call
+#include <arpa/inet.h>
 
 /*
   Error message used when a system call fails. The argument passed into the
@@ -131,7 +130,9 @@ int main(int argc, char *argv[])
   Second argument is a reference pointer to the address of the client, and the
   third argument is the size of the client address. */
   newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);
-  printf("Connection has been accepted.\n");
+  char ip4[INET_ADDRSTRLEN];
+  inet_ntop(AF_INET, &(cli_addr.sin_addr), ip4, INET_ADDRSTRLEN);
+  printf("Connection has been accepted.\nClient IP: %s\n", ip4);
   if (newsockfd < 0)
     error("ERROR on accept");
 
