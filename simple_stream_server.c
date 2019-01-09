@@ -1,9 +1,16 @@
-/*  server.c
+/*  simple_stream_server.c
 
     Based on guide from:
     http://beej.us/guide/bgnet/html/multi/index.html
 
-    More "IP-agnostic" version of the previous C scripts.
+    Sends a string out over a stream connection.
+
+    Basic operation of this server:
+    *   server initiates
+    *   sets up parameters, calls getaddrinfo() to fill struct
+    *   waits for connection on socket using file descriptor
+    *   accept() incoming connection
+    *   fork(), so a child process can handle client
 
 */
 
